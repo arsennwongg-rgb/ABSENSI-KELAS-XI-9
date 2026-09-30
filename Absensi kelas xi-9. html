@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirim Pesan</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      margin-bottom: 8px;
+      color: #38bdf8;
+      text-align: center;
+    }
+    p {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: #cbd5e1;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus, textarea:focus {
+      border-color: #38bdf8;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0369a1;
+    }
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+
+  <!-- SDK EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+       // 1. GANTI DENGAN PUBLIC KEY DARI EMAILJS
+       emailjs.init(eh5HBOPv8umEe93Ih);
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Kirim Pesan</h2>
+    <p>Isi form di bawah ini untuk mengirim pesan langsung ke email saya.</p>
+
+    <form id="contact-form">
+      <div class="form-group">
+        <label for="name">Nama Pengirim</label>
+        <input type="text" id="name" name="from_name" placeholder="Masukkan nama..." required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Pesan</label>
+        <textarea id="message" name="message" rows="4" placeholder="Tulis pesan kamu..." required></textarea>
+      </div>
+
+      <button type="submit" id="btn-send">Kirim Pesan</button>
+    </form>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const btn = document.getElementById('btn-send');
+      const statusText = document.getElementById('status');
+
+      btn.innerText = 'Mengirim...';
+
+      // 2. GANTI DENGAN SERVICE_ID DAN TEMPLATE_ID DARI EMAILJS
+      emailjs.sendForm(service_n5nlyp8, template_006h3wz, this)
+        .then(function() {
+            btn.innerText = 'Kirim Pesan';
+            statusText.style.color = '#4ade80';
+            statusText.innerText = 'Pesan berhasil terkirim!';
+            document.getElementById('contact-form').reset();
+        }, function(error) {
+            btn.innerText = 'Kirim Pesan';
+            statusText.style.color = '#f87171';
+            statusText.innerText = 'Gagal mengirim pesan!';
+            console.log('Error:', error);
+        });
+    });
+  </script>
+
+</body>
+</html>
